@@ -26,13 +26,13 @@ pub struct EventHandler<M, X, E>{
 impl <M: Middleware, X: Tokenizable + std::marker::Send + Clone, E: EthEvent> EventHandler<M, X, E> {
     //first we get a new Event Handler which takes provider, the contract instance, and function signature
     fn new(provider: M, contract: Contract<M>, fn_name: String, args: X, event: E) -> Self {
-       return Self {
+        Self {
             provider: Arc::new(provider),
             contract,
             fn_name,
             args,
             event
-        };
+        }
     }
     //then call eh_call on your new EventHandler
     async fn eh_call(self: Self) -> Result<Vec<E>, ContractError<M>> 
