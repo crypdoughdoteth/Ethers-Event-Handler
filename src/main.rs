@@ -11,12 +11,11 @@ use ethers::core::{
     types::{Address, U256},
 };
 use serde_json;
-use std::sync::Arc;
 use ethers::providers::Middleware;
 
 // Wrapper type for calling and handling events when you expect a given event to be emitted from the function you are calling on a smart contract
 pub struct EventHandler<M, X, E>{
-    provider: Arc<M>, 
+    provider: M, 
     contract: Contract<M>,
     fn_name: String,
     args: X,
@@ -27,7 +26,7 @@ impl <M: Middleware, X: Tokenizable + std::marker::Send + Clone, E: EthEvent> Ev
     //first we get a new Event Handler which takes provider, the contract instance, and function signature
     fn new(provider: M, contract: Contract<M>, fn_name: String, args: X, event: E) -> Self {
         Self {
-            provider: Arc::new(provider),
+            provider,
             contract,
             fn_name,
             args,
@@ -48,7 +47,6 @@ impl <M: Middleware, X: Tokenizable + std::marker::Send + Clone, E: EthEvent> Ev
             .query()
             .await?;
         Ok(res)
-    
     }
 }
 
