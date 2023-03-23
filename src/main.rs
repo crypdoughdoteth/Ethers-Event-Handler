@@ -1,16 +1,13 @@
 use ethers::abi::Tokenizable;
 use ethers::prelude::*;
 use ethers::signers::LocalWallet;
-
 use dotenv::dotenv;
 use eyre::Result;
-
 use ethers::contract::{Contract, EthEvent};
 use ethers::core::{
     abi::Abi,
     types::{Address, U256},
 };
-use serde_json;
 use ethers::providers::Middleware;
 
 // Wrapper type for calling and handling events when you expect a given event to be emitted from the function you are calling on a smart contract
@@ -23,7 +20,7 @@ pub struct EventHandler<M, X, E>{
     event: E,
 }
 
-impl <M: Middleware, X: Tokenizable + std::marker::Send + Clone, E: EthEvent> EventHandler<M, X, E> {
+impl <M: Middleware, X: Tokenizable + std::marker::Send, E: EthEvent> EventHandler<M, X, E> {
     //first we get a new Event Handler which takes provider, the contract instance, and function signature
     fn new(provider: M, contract: Contract<M>, fn_name: String, args: X, event: E) -> Self {
         Self {
