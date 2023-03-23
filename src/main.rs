@@ -14,6 +14,7 @@ use serde_json;
 use ethers::providers::Middleware;
 
 // Wrapper type for calling and handling events when you expect a given event to be emitted from the function you are calling on a smart contract
+#[derive(Debug, Clone)]
 pub struct EventHandler<M, X, E>{
     provider: M, 
     contract: Contract<M>,
